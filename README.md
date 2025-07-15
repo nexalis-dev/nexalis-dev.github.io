@@ -1,2 +1,0 @@
-# nexalis
-game hub
