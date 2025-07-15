@@ -1,39 +1,73 @@
+# .github/workflows/deploy.yml
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main  # Set this to your default branch
+    branches: [ "main" ]
+  workflow_dispatch:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js ⚙️
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'npm'
 
-      - name: Install Dependencies 📦
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build 🔧
+      - name: Install gh-pages
+        run: npm install --save-dev gh-pages
+
+      - name: Build
         run: npm run build
         env:
-          REACT_APP_ARENA_API_URL: "${{ secrets.REACT_APP_ARENA_API_URL }}"
-          REACT_APP_NEXALIS_NETWORK: "${{ secrets.REACT_APP_NEXALIS_NETWORK }}"
-          REACT_APP_NEXALIS_API_URL: "${{ secrets.REACT_APP_NEXALIS_API_URL }}"
-          REACT_APP_NEXALIS_EXPLORER_URL: "${{ secrets.REACT_APP_NEXALIS_EXPLORER_URL }}"
+          REACT_APP_ARENA_API_URL: ${{ secrets.REACT_APP_ARENA_API_URL }}
+          REACT_APP_NEXALIS_NETWORK: ${{ secrets.REACT_APP_NEXALIS_NETWORK }}
+          REACT_APP_NEXALIS_API_URL: ${{ secrets.REACT_APP_NEXALIS_API_URL }}
+          REACT_APP_NEXALIS_EXPLORER_URL: ${{ secrets.REACT_APP_NEXALIS_EXPLORER_URL }}
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Deploy
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          npm run deploy
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          folder: build # The folder the action should deploy
-          branch: gh-pages # The branch the action should deploy to
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Deploy to GitHub Pages
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          npm run deploy
