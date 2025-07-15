@@ -1,0 +1,391 @@
+/* GameHub Main Styles */
+.game-hub {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #2d2d2d 100%);
+  color: white;
+  font-family: 'Arial', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.game-content {
+  position: relative;
+  z-index: 10;
+  min-height: calc(100vh - 80px);
+}
+
+/* Loading States */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  gap: 20px;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #4ecdc4;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #4ecdc4;
+  text-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+}
+
+/* Background Effects */
+.background-effects {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floating-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, rgba(78, 205, 196, 0.8) 0%, rgba(78, 205, 196, 0) 70%);
+  border-radius: 50%;
+  animation: float linear infinite;
+}
+
+.particle:nth-child(odd) {
+  background: radial-gradient(circle, rgba(255, 107, 107, 0.6) 0%, rgba(255, 107, 107, 0) 70%);
+}
+
+.particle:nth-child(3n) {
+  background: radial-gradient(circle, rgba(254, 202, 87, 0.7) 0%, rgba(254, 202, 87, 0) 70%);
+}
+
+.gradient-orbs {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.1;
+  animation: orbFloat 20s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(45deg, #4ecdc4, #44a08d);
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+  top: 50%;
+  right: 10%;
+  animation-delay: -7s;
+}
+
+.orb-3 {
+  width: 250px;
+  height: 250px;
+  background: linear-gradient(45deg, #feca57, #ff9ff3);
+  bottom: 20%;
+  left: 30%;
+  animation-delay: -14s;
+}
+
+/* Achievement Notifications */
+.achievement-notification {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: linear-gradient(45deg, rgba(78, 205, 196, 0.9), rgba(68, 160, 141, 0.9));
+  color: white;
+  padding: 15px 20px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 1000;
+  animation: slideInRight 0.5s ease-out, fadeOut 0.5s ease-in 4.5s forwards;
+}
+
+.achievement-icon {
+  font-size: 1.5rem;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.achievement-text {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Game Transition Effects */
+.game-content > * {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .game-hub {
+    padding: 0;
+  }
+  
+  .game-content {
+    min-height: calc(100vh - 60px);
+  }
+  
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .loading-text {
+    font-size: 1rem;
+  }
+  
+  .achievement-notification {
+    top: 80px;
+    right: 10px;
+    left: 10px;
+    padding: 12px 15px;
+  }
+  
+  .achievement-text {
+    font-size: 0.8rem;
+  }
+  
+  .orb-1 {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .orb-2 {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .orb-3 {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .particle {
+    width: 2px;
+    height: 2px;
+  }
+  
+  .achievement-notification {
+    padding: 10px 12px;
+  }
+  
+  .achievement-icon {
+    font-size: 1.2rem;
+  }
+  
+  .achievement-text {
+    font-size: 0.75rem;
+  }
+}
+
+/* Animations */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(100px);
+    opacity: 0;
+  }
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  75% {
+    transform: translate(20px, 30px) scale(1.05);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* High Performance Optimizations */
+.game-hub * {
+  box-sizing: border-box;
+}
+
+.background-effects {
+  will-change: transform;
+}
+
+.particle {
+  will-change: transform;
+}
+
+.orb {
+  will-change: transform;
+}
+
+.loading-spinner {
+  will-change: transform;
+}
+
+/* Dark Theme Enhancements */
+.game-hub {
+  --primary-color: #4ecdc4;
+  --secondary-color: #ff6b6b;
+  --accent-color: #feca57;
+  --success-color: #2ecc71;
+  --warning-color: #f39c12;
+  --danger-color: #e74c3c;
+  --dark-bg: #0c0c0c;
+  --dark-surface: #1a1a1a;
+  --dark-elevated: #2d2d2d;
+  --text-primary: #ffffff;
+  --text-secondary: #bdc3c7;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  .particle,
+  .orb,
+  .loading-spinner,
+  .achievement-notification,
+  .game-content > * {
+    animation: none;
+  }
+  
+  .loading-spinner {
+    border-left-color: var(--primary-color);
+  }
+}
+
+/* Focus States for Accessibility */
+.game-hub button:focus,
+.game-hub input:focus,
+.game-hub select:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .game-hub {
+    --primary-color: #00ffff;
+    --secondary-color: #ff0000;
+    --accent-color: #ffff00;
+  }
+  
+  .background-effects {
+    opacity: 0.3;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .background-effects,
+  .floating-particles,
+  .gradient-orbs,
+  .achievement-notification {
+    display: none;
+  }
+  
+  .game-hub {
+    background: white;
+    color: black;
+  }
+}

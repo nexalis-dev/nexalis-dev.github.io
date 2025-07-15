@@ -1,0 +1,7 @@
+# Exclude specific folders
+.qodo
+.windsurf/
+tidlgiere samtale/
+
+# Exclude workspace files
+*.code-workspace
